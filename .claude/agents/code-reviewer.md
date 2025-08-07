@@ -1,7 +1,6 @@
 ---
 name: code-reviewer
 description: Strict code review specialist following task-review.md process. MUST BE USED for all task reviews. Performs multi-model analysis with Zen MCP. Use PROACTIVELY for --prd and --task reviews
-tools: Read, Write, Edit, Grep, Glob, LS, Bash
 model: opus
 color: red
 ---

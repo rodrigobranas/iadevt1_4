@@ -1,60 +1,74 @@
 ---
 alwaysApply: false
 ---
-```
 
-## Query Features
+## API over Hono (Bun)
+
+### Routing and Middleware
+
+- Use **Hono** for HTTP routing and middleware
+- Configure CORS via `hono/cors` and keep allowed origins explicit
+
+### Request/Response
+
+- Prefer JSON payloads; validate and coerce inputs
+- Return typed response bodies
 
 ### Pagination
-Implement pagination for complex queries:
+
 - Use `limit` and `offset` query parameters
-- Example: `/users?limit=20&offset=40`
 - Return total count in response metadata
 
-### Response Example
 ```json
 {
-  "data": [...],
-  "pagination": {
-    "limit": 20,
-    "offset": 40,
-    "total": 150
-  }
+  "data": [],
+  "pagination": { "limit": 20, "offset": 40, "total": 150 }
 }
 ```
 
-### Partial Response
-Implement field selection for large data responses:
-- Use `fields` query parameter
-- Example: `/users?fields=id,name,email`
+### Field Selection (Partial Response)
+
+- Optional `fields` query parameter: `/users?fields=id,name,email`
 
 ## External API Communication
 
 ### HTTP Client
-- Use **Axios** for external API calls
-- Implement proper timeout handling
-- Add retry logic for transient failures
-- Log all external API interactions
 
-### Example
+- Use the runtime-native `fetch` (Bun/Node/Browser)
+- Implement timeouts with `AbortController`
+- Add lightweight retry for transient failures when necessary
+- Log requests and responses at appropriate levels (see logging rules)
+
+### Example (fetch with timeout)
+
 ```typescript
-const response = await axios.get('https://api.external.com/data', {
-  timeout: 5000,
-  headers: {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
-});
+const controller = new AbortController();
+const timeoutId = setTimeout(() => controller.abort(), 5000);
+try {
+  const res = await fetch('https://api.external.com/data', {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+    signal: controller.signal,
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  // ... use data
+} finally {
+  clearTimeout(timeoutId);
+}
 ```
 
 ## Best Practices
 
 ### Versioning
-- Consider API versioning strategy (`/v1/`, headers, etc.)
+
+- Consider `/v1` style versioning or vendor headers
 - Maintain backward compatibility
 
 ### Error Responses
-Provide consistent error response format:
+
+- Provide consistent error response format:
+
 ```json
 {
   "error": {
@@ -66,9 +80,11 @@ Provide consistent error response format:
 ```
 
 ### Rate Limiting
-- Implement rate limiting for API protection
-- Return appropriate headers (`X-RateLimit-*`)
+
+- Add rate limiting at the edge or middleware layer if exposed publicly
+- Return standard headers (`X-RateLimit-*`) when applicable
 
 ### CORS
-- Configure CORS appropriately for your use case
-- Be specific about allowed origins in production
+
+- Configure CORS explicitly per environment
+- Avoid wildcard origins in production

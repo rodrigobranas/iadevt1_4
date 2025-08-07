@@ -1,14 +1,17 @@
 ---
 alwaysApply: true
 ---
+
 # Code Standards
 
 ## Language Requirements
+
 - All source code must be written in **English**
 
 ## Naming Conventions
 
 ### Case Styles
+
 - **camelCase**: Methods, functions, and variables
   - `getUserById()`, `calculateTotal()`, `isActive`
 - **PascalCase**: Classes and interfaces
@@ -17,11 +20,13 @@ alwaysApply: true
   - `user-service.ts`, `order-repository.ts`, `payment-gateway/`
 
 ### Naming Guidelines
+
 - Avoid abbreviations (exception: well-known terms like `API`, `URL`)
 - Keep names descriptive but concise (max 30 characters)
 - Use meaningful, self-documenting names
 
 ### Examples
+
 ```typescript
 // Good
 const userAuthenticationToken = '...';
@@ -37,6 +42,7 @@ class CustRepo {}
 ## Code Organization
 
 ### Constants and Magic Numbers
+
 - Declare constants for all magic numbers
 - Use descriptive names that explain the value's purpose
 
@@ -54,6 +60,7 @@ const pageSize = 20;
 ## Functions and Methods
 
 ### Naming Rules
+
 - Start with a verb that clearly describes the action
 - Never start with a noun
 
@@ -69,12 +76,17 @@ function emailValidation() {}
 ```
 
 ### Parameter Guidelines
+
 - Limit to 3 parameters maximum
 - Use objects for multiple related parameters
 
 ```typescript
 // Good
-function createOrder(customerId: string, items: OrderItem[], options?: OrderOptions) {}
+function createOrder(
+  customerId: string,
+  items: OrderItem[],
+  options?: OrderOptions
+) {}
 
 // Better (when many parameters)
 interface CreateOrderParams {
@@ -91,6 +103,7 @@ function createOrder(params: CreateOrderParams) {}
 ## Clean Code Principles
 
 ### Side Effects
+
 - Avoid side effects in functions
 - Separate queries from commands (CQRS pattern)
 - A function should either return data OR cause a side effect, never both
@@ -117,6 +130,7 @@ function getUserAndLog(id: string): User {
 ### Control Flow
 
 #### Early Returns
+
 - Use early returns to avoid deep nesting
 - Maximum nesting level: 2
 
@@ -126,11 +140,11 @@ function processOrder(order: Order): void {
   if (!order) {
     throw new Error('Order is required');
   }
-  
+
   if (!order.items.length) {
     throw new Error('Order must have items');
   }
-  
+
   // Process order
 }
 
@@ -149,13 +163,14 @@ function processOrder(order: Order): void {
 ```
 
 #### Flag Parameters
+
 - Never use boolean flags to control function behavior
 - Create separate functions instead
 
 ```typescript
 // Good
-function saveUser(user: User): void { }
-function saveUserAsDraft(user: User): void { }
+function saveUser(user: User): void {}
+function saveUserAsDraft(user: User): void {}
 
 // Avoid
 function saveUser(user: User, isDraft: boolean): void {
@@ -170,39 +185,31 @@ function saveUser(user: User, isDraft: boolean): void {
 ## Code Size Limits
 
 ### Methods and Functions
+
 - Maximum 50 lines per function
 - If exceeding, consider extracting helper functions
 
 ### Classes
+
 - Maximum 300 lines per class
 - If exceeding, consider splitting responsibilities
 
 ## Dependency Management
 
 ### Dependency Inversion
-- Always invert dependencies for external resources
-- Apply in use cases and interface adapters
-- Use interfaces to define contracts
+
+- Invert dependencies for external resources (HTTP, storage)
+- Define small interfaces and inject implementations
 
 ```typescript
-// Good
 interface PaymentGateway {
   processPayment(amount: number): Promise<PaymentResult>;
 }
 
 class PaymentService {
-  constructor(private gateway: PaymentGateway) {}
-  
+  constructor(private readonly gateway: PaymentGateway) {}
   async processOrder(order: Order): Promise<void> {
     await this.gateway.processPayment(order.total);
-  }
-}
-
-// Avoid
-class PaymentService {
-  async processOrder(order: Order): Promise<void> {
-    const stripe = new Stripe(); // Direct dependency
-    await stripe.charge(order.total);
   }
 }
 ```
@@ -210,11 +217,13 @@ class PaymentService {
 ## Code Formatting
 
 ### Blank Lines
+
 - Avoid blank lines within methods and functions
 - Use blank lines between methods/functions
 - Group related code together
 
 ### Comments
+
 - Avoid comments when possible
 - Write self-documenting code instead
 - Use comments only for:
@@ -223,6 +232,7 @@ class PaymentService {
   - TODO/FIXME with ticket references
 
 ### Variable Declaration
+
 - Never declare multiple variables on same line
 - Declare variables close to where they're used
 
@@ -232,32 +242,26 @@ const firstName = user.firstName;
 const lastName = user.lastName;
 
 // Avoid
-const firstName = user.firstName, lastName = user.lastName;
+const firstName = user.firstName,
+  lastName = user.lastName;
 ```
 
 ## Design Principles
 
 ### Composition Over Inheritance
+
 - Prefer composition to class inheritance
 - Use interfaces for contracts
 - Compose behaviors through dependency injection
 
 ```typescript
-// Good - Composition
 interface Logger {
   log(message: string): void;
 }
 
 class UserService {
-  constructor(private logger: Logger) {}
+  constructor(private readonly logger: Logger) {}
 }
-
-// Avoid - Inheritance
-class BaseService {
-  protected log(message: string): void {}
-}
-
-class UserService extends BaseService {}
 ```
 
 ## Best Practices Summary
@@ -272,11 +276,13 @@ class UserService extends BaseService {}
 8. Maintain consistent code style throughout the project# Code Standards
 
 ## Language Requirements
+
 - All source code must be written in **English**
 
 ## Naming Conventions
 
 ### Case Styles
+
 - **camelCase**: Methods, functions, and variables
   - `getUserById()`, `calculateTotal()`, `isActive`
 - **PascalCase**: Classes and interfaces
@@ -285,11 +291,13 @@ class UserService extends BaseService {}
   - `user-service.ts`, `order-repository.ts`, `payment-gateway/`
 
 ### Naming Guidelines
+
 - Avoid abbreviations (exception: well-known terms like `API`, `URL`)
 - Keep names descriptive but concise (max 30 characters)
 - Use meaningful, self-documenting names
 
 ### Examples
+
 ```typescript
 // Good
 const userAuthenticationToken = '...';
@@ -305,6 +313,7 @@ class CustRepo {}
 ## Code Organization
 
 ### Constants and Magic Numbers
+
 - Declare constants for all magic numbers
 - Use descriptive names that explain the value's purpose
 
@@ -322,6 +331,7 @@ const pageSize = 20;
 ## Functions and Methods
 
 ### Naming Rules
+
 - Start with a verb that clearly describes the action
 - Never start with a noun
 
@@ -337,12 +347,17 @@ function emailValidation() {}
 ```
 
 ### Parameter Guidelines
+
 - Limit to 3 parameters maximum
 - Use objects for multiple related parameters
 
 ```typescript
 // Good
-function createOrder(customerId: string, items: OrderItem[], options?: OrderOptions) {}
+function createOrder(
+  customerId: string,
+  items: OrderItem[],
+  options?: OrderOptions
+) {}
 
 // Better (when many parameters)
 interface CreateOrderParams {
@@ -359,6 +374,7 @@ function createOrder(params: CreateOrderParams) {}
 ## Clean Code Principles
 
 ### Side Effects
+
 - Avoid side effects in functions
 - Separate queries from commands (CQRS pattern)
 - A function should either return data OR cause a side effect, never both
@@ -385,6 +401,7 @@ function getUserAndLog(id: string): User {
 ### Control Flow
 
 #### Early Returns
+
 - Use early returns to avoid deep nesting
 - Maximum nesting level: 2
 
@@ -394,11 +411,11 @@ function processOrder(order: Order): void {
   if (!order) {
     throw new Error('Order is required');
   }
-  
+
   if (!order.items.length) {
     throw new Error('Order must have items');
   }
-  
+
   // Process order
 }
 
@@ -417,13 +434,14 @@ function processOrder(order: Order): void {
 ```
 
 #### Flag Parameters
+
 - Never use boolean flags to control function behavior
 - Create separate functions instead
 
 ```typescript
 // Good
-function saveUser(user: User): void { }
-function saveUserAsDraft(user: User): void { }
+function saveUser(user: User): void {}
+function saveUserAsDraft(user: User): void {}
 
 // Avoid
 function saveUser(user: User, isDraft: boolean): void {
@@ -438,16 +456,19 @@ function saveUser(user: User, isDraft: boolean): void {
 ## Code Size Limits
 
 ### Methods and Functions
+
 - Maximum 50 lines per function
 - If exceeding, consider extracting helper functions
 
 ### Classes
+
 - Maximum 300 lines per class
 - If exceeding, consider splitting responsibilities
 
 ## Dependency Management
 
 ### Dependency Inversion
+
 - Always invert dependencies for external resources
 - Apply in use cases and interface adapters
 - Use interfaces to define contracts
@@ -460,7 +481,7 @@ interface PaymentGateway {
 
 class PaymentService {
   constructor(private gateway: PaymentGateway) {}
-  
+
   async processOrder(order: Order): Promise<void> {
     await this.gateway.processPayment(order.total);
   }
@@ -478,11 +499,13 @@ class PaymentService {
 ## Code Formatting
 
 ### Blank Lines
+
 - Avoid blank lines within methods and functions
 - Use blank lines between methods/functions
 - Group related code together
 
 ### Comments
+
 - Avoid comments when possible
 - Write self-documenting code instead
 - Use comments only for:
@@ -491,6 +514,7 @@ class PaymentService {
   - TODO/FIXME with ticket references
 
 ### Variable Declaration
+
 - Never declare multiple variables on same line
 - Declare variables close to where they're used
 
@@ -500,12 +524,14 @@ const firstName = user.firstName;
 const lastName = user.lastName;
 
 // Avoid
-const firstName = user.firstName, lastName = user.lastName;
+const firstName = user.firstName,
+  lastName = user.lastName;
 ```
 
 ## Design Principles
 
 ### Composition Over Inheritance
+
 - Prefer composition to class inheritance
 - Use interfaces for contracts
 - Compose behaviors through dependency injection
