@@ -1,0 +1,23 @@
+{
+  "name": "iadevt1_4",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "bun run --filter '*' dev",
+    "dev:frontend": "bun run --filter '@iadevt1_4/frontend' dev",
+    "dev:backend": "bun run --filter '@iadevt1_4/backend' dev",
+    "build": "bun run --filter '*' build",
+    "build:frontend": "bun run --filter '@iadevt1_4/frontend' build",
+    "lint": "bun run --filter '*' lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "clean": "rm -rf node_modules **/node_modules bun.lock"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}

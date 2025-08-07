@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+*.build
+.next
+.nuxt
+.output
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env*
+
+# IDE
+.vscode/
+.idea/
+
+# Package manager locks
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated files
+*.generated.*
+*.min.js
+*.min.css
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.eslintcache
+.prettierignore
+
+# Temporary files
+*.tmp
+*.temp
+.claude/

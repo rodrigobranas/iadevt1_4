@@ -1,0 +1,28 @@
+# Bun Configuration File
+
+# Install configuration
+[install]
+# Auto-install peer dependencies
+peer = true
+
+# Save exact versions
+exact = false
+
+# Install optional dependencies
+optional = true
+
+# Link workspace packages
+linkWorkspacePackages = true
+
+# Cache configuration
+[install.cache]
+# Bun will automatically manage cache
+
+# Run configuration
+[run]
+# Shell to use for scripts (default is "system" on non-Windows)
+shell = "system"
+
+# Development configuration
+[dev]
+# Hot reload is enabled by default for dev scripts
