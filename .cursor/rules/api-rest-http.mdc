@@ -1,0 +1,74 @@
+---
+alwaysApply: false
+---
+```
+
+## Query Features
+
+### Pagination
+Implement pagination for complex queries:
+- Use `limit` and `offset` query parameters
+- Example: `/users?limit=20&offset=40`
+- Return total count in response metadata
+
+### Response Example
+```json
+{
+  "data": [...],
+  "pagination": {
+    "limit": 20,
+    "offset": 40,
+    "total": 150
+  }
+}
+```
+
+### Partial Response
+Implement field selection for large data responses:
+- Use `fields` query parameter
+- Example: `/users?fields=id,name,email`
+
+## External API Communication
+
+### HTTP Client
+- Use **Axios** for external API calls
+- Implement proper timeout handling
+- Add retry logic for transient failures
+- Log all external API interactions
+
+### Example
+```typescript
+const response = await axios.get('https://api.external.com/data', {
+  timeout: 5000,
+  headers: {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  }
+});
+```
+
+## Best Practices
+
+### Versioning
+- Consider API versioning strategy (`/v1/`, headers, etc.)
+- Maintain backward compatibility
+
+### Error Responses
+Provide consistent error response format:
+```json
+{
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "User with specified ID does not exist",
+    "details": {}
+  }
+}
+```
+
+### Rate Limiting
+- Implement rate limiting for API protection
+- Return appropriate headers (`X-RateLimit-*`)
+
+### CORS
+- Configure CORS appropriately for your use case
+- Be specific about allowed origins in production

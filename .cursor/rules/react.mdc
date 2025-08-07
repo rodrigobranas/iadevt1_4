@@ -1,0 +1,489 @@
+---
+globs: *.tsx
+alwaysApply: false
+---
+# React Development Standards
+
+## Component Architecture
+
+### Component Type
+- Always use **functional components**
+- Never use class components
+- Leverage React Hooks for state and lifecycle
+
+### File Structure
+- Use **TypeScript** with `.tsx` extension for all React components
+- One component per file (preferred)
+- Group related components in feature folders
+
+## State Management
+
+### State Principles
+- Keep state as close as possible to where it's used
+- Lift state up only when necessary
+- Use local state before reaching for global solutions
+
+### Props Passing
+- Pass props explicitly between components
+- Avoid spread operator for props
+
+```typescript
+// Good
+<UserProfile 
+  name={user.name}
+  email={user.email}
+  avatar={user.avatar}
+/>
+
+// Avoid
+<UserProfile {...user} />
+```
+
+### Global State
+- Use **Context API** for cross-component communication
+- Consider state management libraries only for complex applications
+- Keep contexts focused and small
+
+## Code Organization
+
+### Component Size
+- Keep components under 300 lines
+- Extract logic into custom hooks
+- Split large components into smaller, focused ones
+
+### Component Granularity
+- Avoid excessive component fragmentation
+- Balance between reusability and simplicity
+- Create components that have clear, single responsibilities
+
+## Styling
+
+### CSS Framework
+- Use **Tailwind CSS** for component styling
+- Avoid styled-components
+- Keep styles co-located with components
+
+### Example
+```typescript
+function Button({ label, onClick, variant = 'primary' }) {
+  const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
+  const variantStyles = {
+    primary: 'bg-blue-500 text-white hover:bg-blue-600',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+  };
+
+  return (
+    <button 
+      className={`${baseStyles} ${variantStyles[variant]}`}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+}
+```
+
+## Data Fetching
+
+### API Communication
+- Always use **React Query** (TanStack Query) for API calls
+- Leverage caching and synchronization features
+- Handle loading and error states properly
+
+### Example
+```typescript
+import { useQuery } from '@tanstack/react-query';
+
+function UserList() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) return <Error message={error.message} />;
+  
+  return <UserGrid users={data} />;
+}
+```
+
+## Performance Optimization
+
+### Memoization
+- Use `useMemo` for expensive calculations
+- Prevent unnecessary re-computations between renders
+- Don't overuse - profile first
+
+### Example
+```typescript
+function ExpensiveComponent({ data }) {
+  const processedData = useMemo(() => {
+    return data.map(item => ({
+      ...item,
+      computed: expensiveCalculation(item)
+    }));
+  }, [data]);
+
+  return <DataDisplay data={processedData} />;
+}
+```
+
+### React.memo
+- Use for components that re-render frequently with same props
+- Combine with useMemo and useCallback for effectiveness
+
+## Custom Hooks
+
+### Naming Convention
+- Always prefix custom hooks with "use"
+- Examples: `useAuth`, `useLocalStorage`, `useDebounce`
+
+### Example
+```typescript
+function useLocalStorage<T>(key: string, initialValue: T) {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(`Error saving to localStorage: ${error}`);
+    }
+  };
+
+  return [storedValue, setValue] as const;
+}
+```
+
+## UI Components
+
+### Component Library
+- Use **Shadcn UI** components whenever possible
+- Customize themes through Tailwind configuration
+- Maintain consistent design system
+
+### Third-Party Libraries
+- Always ask before creating complex components from scratch
+- Research existing solutions first
+- Prefer well-maintained, popular libraries
+
+## Testing
+
+### Testing Requirements
+- Create automated tests for all components
+- Test user interactions and edge cases
+- Use React Testing Library
+
+### Example
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+
+describe('Button', () => {
+  it('should call onClick when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button label="Click me" onClick={handleClick} />);
+    
+    const button = screen.getByText('Click me');
+    fireEvent.click(button);
+    
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+## TypeScript Integration
+
+### Type Safety
+- Define interfaces for all props
+- Use proper TypeScript types throughout
+- Avoid `any` type
+
+### Example
+```typescript
+interface UserCardProps {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+  };
+  onSelect?: (userId: string) => void;
+  isSelected?: boolean;
+}
+
+function UserCard({ user, onSelect, isSelected = false }: UserCardProps) {
+  return (
+    <div 
+      className={`p-4 border rounded ${isSelected ? 'border-blue-500' : 'border-gray-200'}`}
+      onClick={() => onSelect?.(user.id)}
+    >
+      <h3>{user.name}</h3>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+```
+
+## Best Practices Summary
+
+1. Use functional components with TypeScript
+2. Manage state close to where it's needed
+3. Style with Tailwind CSS
+4. Fetch data with React Query
+5. Optimize with useMemo when necessary
+6. Create reusable custom hooks
+7. Use Shadcn UI components
+8. Write comprehensive tests
+9. Maintain strong type safety# React Development Standards
+
+## Component Architecture
+
+### Component Type
+- Always use **functional components**
+- Never use class components
+- Leverage React Hooks for state and lifecycle
+
+### File Structure
+- Use **TypeScript** with `.tsx` extension for all React components
+- One component per file (preferred)
+- Group related components in feature folders
+
+## State Management
+
+### State Principles
+- Keep state as close as possible to where it's used
+- Lift state up only when necessary
+- Use local state before reaching for global solutions
+
+### Props Passing
+- Pass props explicitly between components
+- Avoid spread operator for props
+
+```typescript
+// Good
+<UserProfile 
+  name={user.name}
+  email={user.email}
+  avatar={user.avatar}
+/>
+
+// Avoid
+<UserProfile {...user} />
+```
+
+### Global State
+- Use **Context API** for cross-component communication
+- Consider state management libraries only for complex applications
+- Keep contexts focused and small
+
+## Code Organization
+
+### Component Size
+- Keep components under 300 lines
+- Extract logic into custom hooks
+- Split large components into smaller, focused ones
+
+### Component Granularity
+- Avoid excessive component fragmentation
+- Balance between reusability and simplicity
+- Create components that have clear, single responsibilities
+
+## Styling
+
+### CSS Framework
+- Use **Tailwind CSS** for component styling
+- Avoid styled-components
+- Keep styles co-located with components
+
+### Example
+```typescript
+function Button({ label, onClick, variant = 'primary' }) {
+  const baseStyles = 'px-4 py-2 rounded font-medium transition-colors';
+  const variantStyles = {
+    primary: 'bg-blue-500 text-white hover:bg-blue-600',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+  };
+
+  return (
+    <button 
+      className={`${baseStyles} ${variantStyles[variant]}`}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+}
+```
+
+## Data Fetching
+
+### API Communication
+- Always use **React Query** (TanStack Query) for API calls
+- Leverage caching and synchronization features
+- Handle loading and error states properly
+
+### Example
+```typescript
+import { useQuery } from '@tanstack/react-query';
+
+function UserList() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) return <Error message={error.message} />;
+  
+  return <UserGrid users={data} />;
+}
+```
+
+## Performance Optimization
+
+### Memoization
+- Use `useMemo` for expensive calculations
+- Prevent unnecessary re-computations between renders
+- Don't overuse - profile first
+
+### Example
+```typescript
+function ExpensiveComponent({ data }) {
+  const processedData = useMemo(() => {
+    return data.map(item => ({
+      ...item,
+      computed: expensiveCalculation(item)
+    }));
+  }, [data]);
+
+  return <DataDisplay data={processedData} />;
+}
+```
+
+### React.memo
+- Use for components that re-render frequently with same props
+- Combine with useMemo and useCallback for effectiveness
+
+## Custom Hooks
+
+### Naming Convention
+- Always prefix custom hooks with "use"
+- Examples: `useAuth`, `useLocalStorage`, `useDebounce`
+
+### Example
+```typescript
+function useLocalStorage<T>(key: string, initialValue: T) {
+  const [storedValue, setStoredValue] = useState<T>(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(`Error saving to localStorage: ${error}`);
+    }
+  };
+
+  return [storedValue, setValue] as const;
+}
+```
+
+## UI Components
+
+### Component Library
+- Use **Shadcn UI** components whenever possible
+- Customize themes through Tailwind configuration
+- Maintain consistent design system
+
+### Third-Party Libraries
+- Always ask before creating complex components from scratch
+- Research existing solutions first
+- Prefer well-maintained, popular libraries
+
+## Testing
+
+### Testing Requirements
+- Create automated tests for all components
+- Test user interactions and edge cases
+- Use React Testing Library
+
+### Example
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+
+describe('Button', () => {
+  it('should call onClick when clicked', () => {
+    const handleClick = jest.fn();
+    render(<Button label="Click me" onClick={handleClick} />);
+    
+    const button = screen.getByText('Click me');
+    fireEvent.click(button);
+    
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+## TypeScript Integration
+
+### Type Safety
+- Define interfaces for all props
+- Use proper TypeScript types throughout
+- Avoid `any` type
+
+### Example
+```typescript
+interface UserCardProps {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+  };
+  onSelect?: (userId: string) => void;
+  isSelected?: boolean;
+}
+
+function UserCard({ user, onSelect, isSelected = false }: UserCardProps) {
+  return (
+    <div 
+      className={`p-4 border rounded ${isSelected ? 'border-blue-500' : 'border-gray-200'}`}
+      onClick={() => onSelect?.(user.id)}
+    >
+      <h3>{user.name}</h3>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+```
+
+## Best Practices Summary
+
+1. Use functional components with TypeScript
+2. Manage state close to where it's needed
+3. Style with Tailwind CSS
+4. Fetch data with React Query
+5. Optimize with useMemo when necessary
+6. Create reusable custom hooks
+7. Use Shadcn UI components
+8. Write comprehensive tests
+9. Maintain strong type safety
