@@ -28,9 +28,7 @@ export type ThemeSwitcherProps = {
   className?: string;
 };
 
-export const ThemeSwitcher = ({
-  className,
-}: ThemeSwitcherProps) => {
+export const ThemeSwitcher = ({ className }: ThemeSwitcherProps) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -46,8 +44,8 @@ export const ThemeSwitcher = ({
   return (
     <div
       className={cn(
-        'relative isolate flex h-8 rounded-full bg-muted/50 p-1 ring-1 ring-border/50',
-        className
+        'bg-muted/50 ring-border/50 relative isolate flex h-8 rounded-full p-1 ring-1',
+        className,
       )}
     >
       {themes.map(({ key, icon: Icon, label }) => {
@@ -63,7 +61,7 @@ export const ThemeSwitcher = ({
           >
             {isActive && (
               <motion.div
-                className="absolute inset-0 rounded-full bg-primary/10"
+                className="bg-primary/10 absolute inset-0 rounded-full"
                 layoutId="activeTheme"
                 transition={{ type: 'spring', duration: 0.5 }}
               />
@@ -71,7 +69,7 @@ export const ThemeSwitcher = ({
             <Icon
               className={cn(
                 'relative z-10 m-auto h-4 w-4',
-                isActive ? 'text-primary' : 'text-muted-foreground'
+                isActive ? 'text-primary' : 'text-muted-foreground',
               )}
             />
           </button>

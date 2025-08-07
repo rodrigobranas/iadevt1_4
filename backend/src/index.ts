@@ -9,17 +9,11 @@ app.use(
   cors({
     origin: ['http://localhost:5173', 'http://localhost:5175'],
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowHeaders: [
-      'Content-Type',
-      'Authorization',
-      'X-Requested-With',
-      'Accept',
-      'Origin',
-    ],
+    allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
     exposeHeaders: ['Content-Length', 'X-Request-Id'],
     credentials: true,
     maxAge: 600, // 10 minutes
-  })
+  }),
 );
 
 app.get('/', (c) => {

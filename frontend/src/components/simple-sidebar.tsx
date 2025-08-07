@@ -1,9 +1,7 @@
-import * as React from "react"
-import {
-  CheckSquare,
-} from "lucide-react"
+import * as React from 'react';
+import { CheckSquare } from 'lucide-react';
 
-import { NavMain } from "@/components/nav-main"
+import { NavMain } from '@/components/nav-main';
 import {
   Sidebar,
   SidebarContent,
@@ -11,19 +9,19 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar';
 
 const data = {
   navMain: [
     {
-      title: "Tarefas",
-      url: "#",
+      title: 'Tarefas',
+      url: '#',
       icon: CheckSquare,
       isActive: true,
       items: [],
     },
   ],
-}
+};
 
 export function SimpleSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -49,5 +47,5 @@ export function SimpleSidebar({ ...props }: React.ComponentProps<typeof Sidebar>
         <NavMain items={data.navMain} />
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

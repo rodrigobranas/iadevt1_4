@@ -27,11 +27,13 @@ bun install
 ## Development
 
 Run all workspaces in development mode:
+
 ```bash
 bun run dev
 ```
 
 Run specific workspace:
+
 ```bash
 bun run dev:frontend  # Run only frontend
 bun run dev:backend   # Run only backend
@@ -40,11 +42,13 @@ bun run dev:backend   # Run only backend
 ## Build
 
 Build all workspaces:
+
 ```bash
 bun run build
 ```
 
 Build specific workspace:
+
 ```bash
 bun run build:frontend
 ```
@@ -52,6 +56,7 @@ bun run build:frontend
 ## Scripts
 
 ### Root Scripts
+
 - `bun run dev` - Run all workspaces in dev mode
 - `bun run dev:frontend` - Run frontend only
 - `bun run dev:backend` - Run backend only
@@ -80,11 +85,13 @@ bun run --filter '@iadevt1_4/backend' dev
 ## Configuration
 
 ### Bun Configuration (bunfig.toml)
+
 - Auto-installs peer dependencies
 - Links workspace packages
 - Uses system shell for scripts
 
 ### Prettier Configuration (.prettierrc)
+
 - Consistent code formatting across all workspaces
 - Run `bun run format` to format all files
 

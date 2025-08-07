@@ -1,3 +1,14 @@
+node_modules
+dist
+build
+coverage
+*.log
+*.lock
+**/.next
+**/.cache
+**/out
+**/storybook-static
+
 # Dependencies
 node_modules/
 **/node_modules/

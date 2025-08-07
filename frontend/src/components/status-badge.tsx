@@ -79,31 +79,22 @@ export function StatusBadge() {
   };
 
   return (
-    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-card border">
+    <div className="bg-card inline-flex items-center gap-2 rounded-full border px-3 py-1.5">
       <div className="relative">
-        <div
-          className={cn(
-            'w-2 h-2 rounded-full',
-            getStatusColor()
-          )}
-        />
+        <div className={cn('h-2 w-2 rounded-full', getStatusColor())} />
         {status === 'healthy' && (
           <div
             className={cn(
-              'absolute inset-0 w-2 h-2 rounded-full animate-ping',
+              'absolute inset-0 h-2 w-2 animate-ping rounded-full',
               getStatusColor(),
-              'opacity-75'
+              'opacity-75',
             )}
           />
         )}
       </div>
-      <span className="text-sm font-medium text-foreground">
-        {getStatusText()}
-      </span>
+      <span className="text-foreground text-sm font-medium">{getStatusText()}</span>
       {healthData && status === 'healthy' && (
-        <span className="text-xs text-muted-foreground">
-          ({formatUptime(healthData.uptime)})
-        </span>
+        <span className="text-muted-foreground text-xs">({formatUptime(healthData.uptime)})</span>
       )}
     </div>
   );
