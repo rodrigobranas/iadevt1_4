@@ -3,7 +3,6 @@ import { toast } from 'sonner';
 import { kanbanApi, type Card, type Column, type ApiError } from '../api/client';
 
 interface BoardState {
-  boardId: string;
   columns: Column[];
   cards: Card[];
   isLoading: boolean;
@@ -37,7 +36,6 @@ export function useKanbanBoard({
   retryDelay = 1000,
 }: UseKanbanBoardOptions) {
   const [state, setState] = useState<BoardState>({
-    boardId,
     columns: [],
     cards: [],
     isLoading: true,
@@ -54,13 +52,13 @@ export function useKanbanBoard({
     
     try {
       const boardData = await kanbanApi.getFullBoard(boardId);
-      setState({
-        boardId,
+      setState(prev => ({
+        ...prev,
         columns: boardData.columns,
         cards: boardData.cards,
         isLoading: false,
         error: null,
-      });
+      }));
     } catch (error) {
       const err = error as Error;
       setState(prev => ({ ...prev, isLoading: false, error: err }));
@@ -374,7 +372,7 @@ export function useKanbanBoard({
 
   return {
     // State
-    boardId: state.boardId,
+    boardId,
     columns: state.columns,
     cards: state.cards,
     isLoading: state.isLoading,
