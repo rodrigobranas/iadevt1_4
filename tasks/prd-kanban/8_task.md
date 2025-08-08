@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 <task_context>
@@ -24,9 +24,9 @@ Compose the existing `kibo-ui` Kanban component into a feature-level `Board.tsx`
 
 ## Subtasks
 
-- [ ] 8.1 Create feature skeleton and compose existing Kanban UI
-- [ ] 8.2 Integrate API client for initial load
-- [ ] 8.3 Wire drag callbacks to `move`/`reorder` actions
+- [x] 8.1 Create feature skeleton and compose existing Kanban UI
+- [x] 8.2 Integrate API client for initial load
+- [x] 8.3 Wire drag callbacks to `move`/`reorder` actions
 
 ## Implementation Details
 
@@ -44,5 +44,3 @@ Follow types from API client. Keep rendering accessible; show assignee/due date/
 
 - Board renders with server data; drag events emit appropriate API calls
 - UI matches MVP fields and is readable and accessible
-
-

@@ -49,5 +49,3 @@ See schema in tech spec (DDL) and file layout under `backend/src/kanban/db/`.
 - DB file initializes without errors; tables and indices exist
 - Health check can report DB connectivity
 - Subsequent repository operations can use the connection
-
-

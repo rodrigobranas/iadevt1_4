@@ -48,5 +48,3 @@ Consult schema and interfaces in the tech spec. Use prepared statements and para
 
 - All repository methods implemented and tested
 - Position/order remains contiguous after operations
-
-

@@ -45,5 +45,3 @@ Leverage existing `/health` and Hono middleware. Keep overhead low.
 
 - Health endpoint reports DB status reliably
 - Logs show request durations and IDs for troubleshooting
-
-

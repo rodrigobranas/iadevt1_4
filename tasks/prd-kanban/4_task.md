@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 <task_context>
@@ -25,9 +25,9 @@ Implement service layer functions for CRUD, `moveCard`, `reorderCard`, and `dele
 
 ## Subtasks
 
-- [ ] 4.1 Implement `KanbanService` with CRUD methods
-- [ ] 4.2 Implement `moveCard` and `reorderCard`
-- [ ] 4.3 Add unit tests covering success and error paths
+- [x] 4.1 Implement `KanbanService` with CRUD methods
+- [x] 4.2 Implement `moveCard` and `reorderCard`
+- [x] 4.3 Add unit tests covering success and error paths
 
 ## Implementation Details
 
@@ -45,5 +45,3 @@ Follow clean layering: routes → services → repositories. No direct DB access
 
 - Service methods pass unit tests and handle edge cases
 - Confirm behavior enforced for non-empty column deletion
-
-

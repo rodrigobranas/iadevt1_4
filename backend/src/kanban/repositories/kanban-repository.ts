@@ -10,6 +10,7 @@ export interface BoardRepository {
 
 export interface ColumnRepository {
   create(boardId: string, name: string, position: number): Promise<Column>;
+  getById(columnId: string): Promise<Column | null>;
   list(boardId: string): Promise<Column[]>;
   rename(columnId: string, name: string): Promise<Column>;
   reorder(columnId: string, newPosition: number): Promise<void>;

@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 <task_context>
@@ -26,9 +26,9 @@ Create typed client functions to call backend Kanban endpoints, including helper
 
 ## Subtasks
 
-- [ ] 7.1 Define types mirroring backend models
-- [ ] 7.2 Implement helper for base URL and fetch wrapper
-- [ ] 7.3 Implement functions: boards/columns/cards CRUD, move, reorder
+- [x] 7.1 Define types mirroring backend models
+- [x] 7.2 Implement helper for base URL and fetch wrapper
+- [x] 7.3 Implement functions: boards/columns/cards CRUD, move, reorder
 
 ## Implementation Details
 
@@ -47,5 +47,3 @@ Base path `/api/v0/kanban`. Use environment variable for backend URL if needed. 
 
 - API client compiles and can be imported by components/state
 - Network calls succeed against running backend
-
-

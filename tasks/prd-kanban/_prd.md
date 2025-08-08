@@ -24,7 +24,7 @@ A Kanban-based project management system that enables teams to organize and trac
 
 Describe key features and numbered functional requirements.
 
-1) Board and Column Management
+1. Board and Column Management
    - High-level: Minimal board construct with editable columns representing workflow stages.
    - Importance: Foundation for visualizing status.
    - How it works: Users can create, rename, reorder, and delete columns; optional board creation if multiple boards are supported.
@@ -33,7 +33,7 @@ Describe key features and numbered functional requirements.
      - R2: The system must allow renaming, reordering (drag), and deleting columns.
      - R3: The system must prevent deleting a column containing cards without explicit confirmation.
 
-2) Card Management
+2. Card Management
    - High-level: Create, edit, delete cards with essential metadata.
    - Importance: Core unit of work.
    - How it works: Cards belong to one column and a board; edited inline or via a simple panel.
@@ -43,7 +43,7 @@ Describe key features and numbered functional requirements.
      - R6: The system must allow editing and deleting cards.
      - R7: The system must maintain card position (ordering) within a column.
 
-3) Drag-and-Drop Interaction
+3. Drag-and-Drop Interaction
    - High-level: Move cards within and across columns via drag and drop with accessible fallbacks.
    - Importance: Enables fast status changes.
    - How it works: Uses existing UI Kanban component for DnD; keyboard-accessible alternatives provided.
@@ -52,7 +52,7 @@ Describe key features and numbered functional requirements.
      - R9: The system must update card state immediately on drop with optimistic UI and eventual consistency.
      - R10: The system must provide a keyboard-accessible move (e.g., focus + arrow/shortcut) and screen-reader announcements.
 
-4) Filtering and Basic View Controls (MVP-scope minimal)
+4. Filtering and Basic View Controls (MVP-scope minimal)
    - High-level: Lightweight filtering by assignee and label, and column collapse/expand.
    - Importance: Improves scannability.
    - Functional requirements:
@@ -115,9 +115,10 @@ Describe key features and numbered functional requirements.
   - Bulk actions and automations
 
 Success criteria by phase:
-  - MVP: ≥ 60% WAU/MAU, p95 load ≤ 1.5s, drag latency ≤ 16ms, users complete primary flow without assistance
-  - Phase 2: ≥ 20% usage of comments/subtasks among active boards, reduced work-in-progress spillover
-  - Phase 3: Reporting used monthly by ≥ 40% of team leads
+
+- MVP: ≥ 60% WAU/MAU, p95 load ≤ 1.5s, drag latency ≤ 16ms, users complete primary flow without assistance
+- Phase 2: ≥ 20% usage of comments/subtasks among active boards, reduced work-in-progress spillover
+- Phase 3: Reporting used monthly by ≥ 40% of team leads
 
 ## Success Metrics
 
@@ -147,5 +148,3 @@ Success criteria by phase:
 - Reference UI: existing component `frontend/src/components/ui/kibo-ui/kanban/index.tsx`
 - Benchmarks: p95 ≤ 1.5s load, ≤ 16ms drag frame budget
 - Glossary: Card (unit of work), Column (workflow stage), Board (collection of columns)
-
-

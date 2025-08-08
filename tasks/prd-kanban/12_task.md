@@ -45,5 +45,3 @@ Use Bun to run the seed; ensure idempotency or cleanup. Consider returning minim
 
 - Seeded data exists; p95 load ≤ 1.5s in local test
 - Documented results and next steps (if any)
-
-

@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { initializeDatabase } from './kanban/db/init';
 import { isDbHealthy } from './kanban/db/sqlite';
+import { createKanbanRoutes } from './kanban/routes';
 
 const app = new Hono();
 
@@ -31,7 +32,7 @@ app.get('/', (c) => {
 app.get('/health', (c) => {
   const dbHealthy = isDbHealthy();
   const overallHealthy = dbHealthy;
-  
+
   const healthStatus = {
     status: overallHealthy ? 'healthy' : 'unhealthy',
     timestamp: new Date().toISOString(),
@@ -51,6 +52,12 @@ app.get('/health', (c) => {
 
   return c.json(healthStatus, overallHealthy ? 200 : 503);
 });
+
+// Mount Kanban routes under /api/v0/kanban
+const kanbanRoutes = createKanbanRoutes();
+app.route('/api/v0/kanban', kanbanRoutes);
+
+export { app };
 
 export default {
   port: 3005,
