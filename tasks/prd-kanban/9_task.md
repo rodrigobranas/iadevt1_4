@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 <task_context>
@@ -24,9 +24,9 @@ Implement a state hook to manage board state locally with optimistic updates for
 
 ## Subtasks
 
-- [ ] 9.1 Implement local state store and helper functions
-- [ ] 9.2 Integrate with API client for move and reorder
-- [ ] 9.3 Add simple error toasts and retry
+- [x] 9.1 Implement local state store and helper functions
+- [x] 9.2 Integrate with API client for move and reorder
+- [x] 9.3 Add simple error toasts and retry
 
 ## Implementation Details
 

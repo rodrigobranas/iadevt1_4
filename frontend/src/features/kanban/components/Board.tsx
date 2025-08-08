@@ -16,12 +16,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
-import { useBoard, useMoveCard, useReorderCard } from '../hooks/useKanban';
+import { useKanbanBoard } from '../state/useKanbanBoard';
 import type { Card, Column } from '../api/client';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { toast } from 'sonner';
 
-interface KanbanBoardProps {
+interface BoardProps {
   boardId: string;
   onCreateCard?: (columnId: string) => void;
   onEditCard?: (card: Card) => void;
@@ -36,25 +37,34 @@ interface KanbanItem {
   column: string;
   // Keep original card data for rendering
   originalCard: Card;
-  [key: string]: unknown; // Allow additional properties for kibo-ui compatibility
+  [key: string]: unknown;
 }
 
-export function KanbanBoardComponent({
+export function Board({
   boardId,
   onCreateCard,
   onEditCard,
   onEditColumn,
   onDeleteColumn,
-}: KanbanBoardProps) {
-  const { data, isLoading, error } = useBoard(boardId);
-  const moveCard = useMoveCard(boardId);
-  const reorderCard = useReorderCard(boardId);
+}: BoardProps) {
+  const {
+    columns,
+    cards,
+    isLoading,
+    error,
+    handleDragEnd: handleOptimisticDragEnd,
+  } = useKanbanBoard({
+    boardId,
+    onError: (err) => {
+      console.error('Kanban board error:', err);
+    },
+    maxRetries: 3,
+    retryDelay: 1000,
+  });
 
   // Transform data to match kibo-ui format
   const kanbanData = useMemo(() => {
-    if (!data) return { columns: [], items: [] };
-
-    const columns = data.columns
+    const sortedColumns = columns
       .sort((a, b) => a.position - b.position)
       .map(col => ({
         id: col.id,
@@ -62,15 +72,15 @@ export function KanbanBoardComponent({
         originalColumn: col,
       }));
 
-    const items: KanbanItem[] = data.cards.map(card => ({
+    const items: KanbanItem[] = cards.map(card => ({
       id: card.id,
       name: card.title,
       column: card.columnId,
       originalCard: card,
     }));
 
-    return { columns, items };
-  }, [data]);
+    return { columns: sortedColumns, items };
+  }, [columns, cards]);
 
   // Handle drag end event
   const handleDragEnd = useCallback(
@@ -87,64 +97,41 @@ export function KanbanBoardComponent({
 
       if (!activeCard) return;
 
-      // Determine target column and position
-      let targetColumnId: string;
-      let targetPosition: number;
-
+      // Determine target column
+      let targetColumnId: string | null = null;
+      
       if (overCard) {
-        // Dropped on a card
         targetColumnId = overCard.column;
-        
-        // Get all cards in target column sorted by position
-        const columnCards = data?.cards
-          .filter(c => c.columnId === targetColumnId)
-          .sort((a, b) => a.position - b.position) || [];
-        
-        // Find the position of the over card
-        const overIndex = columnCards.findIndex(c => c.id === overCard.id);
-        targetPosition = overIndex >= 0 ? overIndex : 0;
-        
-        // If moving within same column and moving down, adjust position
-        if (activeCard.column === targetColumnId) {
-          const activeIndex = columnCards.findIndex(c => c.id === activeCard.id);
-          if (activeIndex < overIndex) {
-            targetPosition = Math.max(0, targetPosition - 1);
-          }
-        }
       } else if (overColumn) {
-        // Dropped on a column (empty area)
         targetColumnId = overColumn.id;
-        // Add to end of column
-        const columnCards = data?.cards.filter(c => c.columnId === targetColumnId) || [];
-        targetPosition = columnCards.length;
-      } else {
-        return;
       }
 
-      // Check if it's a move or reorder
-      if (activeCard.column === targetColumnId) {
-        // Reorder within same column
-        await reorderCard.mutateAsync({
-          cardId: activeCard.id,
-          toPosition: targetPosition,
-        });
-      } else {
-        // Move to different column
-        await moveCard.mutateAsync({
-          cardId: activeCard.id,
-          toColumnId: targetColumnId,
-          toPosition: targetPosition,
-        });
+      try {
+        await handleOptimisticDragEnd(
+          active.id as string,
+          over.id as string,
+          activeCard.column,
+          targetColumnId
+        );
+        
+        // Show success feedback for significant moves
+        if (activeCard.column !== targetColumnId) {
+          const targetColumnName = kanbanData.columns.find(c => c.id === targetColumnId)?.name;
+          toast.success(`Moved "${activeCard.originalCard.title}" to ${targetColumnName}`);
+        }
+      } catch (error) {
+        // Error is already handled by useKanbanBoard with toasts and rollback
+        console.error('Drag operation failed:', error);
       }
     },
-    [kanbanData, data, moveCard, reorderCard]
+    [kanbanData, handleOptimisticDragEnd]
   );
 
-  // Handle data change from drag operations
+  // Handle data change from drag operations (visual updates only)
   const handleDataChange = useCallback(
     (_newData: KanbanItem[]) => {
       // The kibo-ui component handles the visual update
-      // We'll sync with backend in handleDragEnd
+      // Actual state sync happens through handleDragEnd
     },
     []
   );
@@ -168,13 +155,11 @@ export function KanbanBoardComponent({
   if (error) {
     return (
       <Alert variant="destructive" className="m-4">
-        <AlertDescription>Failed to load board data. Please refresh the page.</AlertDescription>
+        <AlertDescription>
+          Failed to load board data: {error.message}. Please refresh the page.
+        </AlertDescription>
       </Alert>
     );
-  }
-
-  if (!data) {
-    return null;
   }
 
   const getPriorityColor = (priority: string) => {
@@ -192,14 +177,12 @@ export function KanbanBoardComponent({
 
   return (
     <div className="h-full p-4 bg-background">
-      <h1 className="text-2xl font-bold mb-4 text-foreground">{data.board.name}</h1>
-      
       <KanbanProvider
         columns={kanbanData.columns}
         data={kanbanData.items}
         onDataChange={handleDataChange}
         onDragEnd={handleDragEnd}
-        className="h-[calc(100%-3rem)]"
+        className="h-full"
       >
         {(column) => (
           <KanbanBoard id={column.id} key={column.id} className="bg-muted/30 dark:bg-muted/10">
@@ -245,7 +228,7 @@ export function KanbanBoardComponent({
                   id={item.id}
                   name={item.name}
                   column={item.column}
-                  className="cursor-pointer"
+                  className="cursor-pointer transition-transform hover:scale-[1.02]"
                 >
                   <div 
                     className="space-y-2"

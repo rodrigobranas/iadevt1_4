@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { KanbanBoardComponent } from './components/KanbanBoard';
+import { Board } from './components/Board';
 import { AddCardForm } from './components/AddCardForm';
 import { kanbanApi } from './api/client';
 import type { Card, Column } from './api/client';
@@ -171,7 +171,7 @@ export function KanbanPage() {
 
       <div className="flex-1 overflow-hidden">
         {selectedBoardId && (
-          <KanbanBoardComponent
+          <Board
             boardId={selectedBoardId}
             onCreateCard={handleCreateCard}
             onEditCard={handleEditCard}
