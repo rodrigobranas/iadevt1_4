@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 <task_context>
@@ -24,9 +24,9 @@ Verify keyboard navigation and ARIA live region announcements during drag-and-dr
 
 ## Subtasks
 
-- [ ] 10.1 Create an a11y checklist for Kanban interactions
-- [ ] 10.2 Audit and fix keyboard navigation issues
-- [ ] 10.3 Verify announcements and contrast; make fixes
+- [x] 10.1 Create an a11y checklist for Kanban interactions
+- [x] 10.2 Audit and fix keyboard navigation issues
+- [x] 10.3 Verify announcements and contrast; make fixes
 
 ## Implementation Details
 
