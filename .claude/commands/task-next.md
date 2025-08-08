@@ -22,6 +22,10 @@ Tech Spec: ./tasks/prd-[$prd]/\_techspec.md
 </techspec_info>
 <project_rules>.cursor/rules</project_rules>
 
+<requirements>
+- **YOU MUST** need to start the implementation right after the entire process above
+</requirements>
+
 Please follow these steps to identify and prepare for the next available task:
 
 1. Scan the task directories provided in tasks/prd-[$prd] for task files.

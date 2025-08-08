@@ -1,7 +1,6 @@
 ---
 name: pretask-analyzer
 description: Pre-task analysis specialist that **PROACTIVELY** runs BEFORE starting implementation from a PRD. Identifies relevant files and dependencies, reviews impacted areas, queries Context7 MCP for library documentation, and produces a final actionable analysis to de-risk and scope the upcoming task.
-tools: Read, Write, Edit, Bash, Grep, Glob, LS
 model: opus
 color: orange
 ---

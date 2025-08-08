@@ -1,7 +1,14 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { initializeDatabase } from './kanban/db/init';
+import { isDbHealthy } from './kanban/db/sqlite';
 
 const app = new Hono();
+
+initializeDatabase().catch((error) => {
+  console.error('Failed to initialize database:', error);
+  process.exit(1);
+});
 
 // Enable CORS for frontend with comprehensive configuration
 app.use(
@@ -22,8 +29,11 @@ app.get('/', (c) => {
 
 // Health check endpoint
 app.get('/health', (c) => {
+  const dbHealthy = isDbHealthy();
+  const overallHealthy = dbHealthy;
+  
   const healthStatus = {
-    status: 'healthy',
+    status: overallHealthy ? 'healthy' : 'unhealthy',
     timestamp: new Date().toISOString(),
     service: 'backend-api',
     version: '1.0.0',
@@ -33,9 +43,13 @@ app.get('/health', (c) => {
       used: process.memoryUsage().heapUsed,
       total: process.memoryUsage().heapTotal,
     },
+    database: {
+      status: dbHealthy ? 'connected' : 'disconnected',
+      type: 'sqlite',
+    },
   };
 
-  return c.json(healthStatus, 200);
+  return c.json(healthStatus, overallHealthy ? 200 : 503);
 });
 
 export default {

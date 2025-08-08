@@ -15,7 +15,7 @@ You are a PRD creation specialist focused on producing high-quality Product Requ
 
 ## Template Reference
 
-- Source template: `tasks/docs/_prd-template.md`
+- Source template: `@tasks/docs/_prd-template.md`
 - Final PRD filename: `_prd.md`
 - Final PRD directory: `./tasks/prd-[feature-slug]/` (feature slug is a lowercase, kebab-case version of the feature name)
 
