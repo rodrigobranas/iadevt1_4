@@ -47,6 +47,10 @@ export function Board({
   onEditColumn,
   onDeleteColumn,
 }: BoardProps) {
+  const handleError = useCallback((err: Error) => {
+    console.error('Kanban board error:', err);
+  }, []);
+
   const {
     columns,
     cards,
@@ -55,9 +59,7 @@ export function Board({
     handleDragEnd: handleOptimisticDragEnd,
   } = useKanbanBoard({
     boardId,
-    onError: (err) => {
-      console.error('Kanban board error:', err);
-    },
+    onError: handleError,
     maxRetries: 3,
     retryDelay: 1000,
   });

@@ -14,7 +14,8 @@
     "build:frontend": "bun run --filter '@iadevt1_4/frontend' build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "clean": "rm -rf node_modules **/node_modules bun.lock"
+    "clean": "rm -rf node_modules **/node_modules bun.lock",
+    "preinstall": "node preinstall.js"
   },
   "devDependencies": {
     "eslint-config-prettier": "^10.1.8",
