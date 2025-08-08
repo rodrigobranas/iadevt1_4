@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { kanbanApi } from '../api/client';
-import type { Card, Column, CreateCardInput, UpdateCardInput } from '../api/client';
+import type { Card, CreateCardInput, UpdateCardInput } from '../api/client';
 
 // Hook to fetch board with columns and cards
 export function useBoard(boardId: string) {
@@ -80,7 +80,7 @@ export function useMoveCard(boardId: string) {
 
       return { previousData };
     },
-    onError: (err, variables, context) => {
+    onError: (_err, _variables, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousData) {
         queryClient.setQueryData(['board', boardId], context.previousData);
@@ -149,7 +149,7 @@ export function useReorderCard(boardId: string) {
 
       return { previousData };
     },
-    onError: (err, variables, context) => {
+    onError: (_err, _variables, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(['board', boardId], context.previousData);
       }
