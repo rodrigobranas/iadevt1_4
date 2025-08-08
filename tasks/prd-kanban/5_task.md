@@ -1,5 +1,5 @@
 ---
-status: pending
+status: completed
 ---
 
 <task_context>
@@ -25,10 +25,10 @@ Create REST endpoints for boards, columns, and cards, including move and reorder
 
 ## Subtasks
 
-- [ ] 5.1 Create `routes/boards.ts`, `routes/columns.ts`, `routes/cards.ts`
-- [ ] 5.2 Wire handlers to service layer
-- [ ] 5.3 Update `backend/src/index.ts` to mount the router
-- [ ] 5.4 Manual verification via curl or REST client
+- [x] 5.1 Create `routes/boards.ts`, `routes/columns.ts`, `routes/cards.ts`
+- [x] 5.2 Wire handlers to service layer
+- [x] 5.3 Update `backend/src/index.ts` to mount the router
+- [x] 5.4 Manual verification via curl or REST client
 
 ## Implementation Details
 
@@ -47,4 +47,3 @@ Follow endpoint list in the tech spec. Prefer small handlers; use early returns.
 
 - All endpoints respond correctly and match contracts
 - CORS allows requests from `localhost:5173` and `5175`
-

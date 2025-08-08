@@ -47,5 +47,3 @@ Follow the data model definitions in the tech spec. Keep functions small and use
 
 - Types compile cleanly; interfaces are complete and consistent
 - Repository interfaces cover all required operations
-
-

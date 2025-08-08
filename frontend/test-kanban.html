@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Test</title>
+</head>
+<body>
+    <h1>Kanban Board Test</h1>
+    <button onclick="createTestData()">Create Test Data</button>
+    <pre id="output"></pre>
+
+    <script type="module">
+        const API_BASE = 'http://localhost:3005/api/v0/kanban';
+        const output = document.getElementById('output');
+
+        async function log(message) {
+            output.textContent += message + '\n';
+        }
+
+        window.createTestData = async function() {
+            try {
+                // Get boards
+                const boardsRes = await fetch(`${API_BASE}/boards`);
+                const boards = await boardsRes.json();
+                log(`Found ${boards.length} boards`);
+
+                let boardId;
+                if (boards.length === 0) {
+                    // Create a board
+                    const createBoardRes = await fetch(`${API_BASE}/boards`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: 'Demo Kanban Board' })
+                    });
+                    const newBoard = await createBoardRes.json();
+                    boardId = newBoard.id;
+                    log(`Created board: ${newBoard.name}`);
+
+                    // Create columns
+                    const columns = ['To Do', 'In Progress', 'Review', 'Done'];
+                    for (const name of columns) {
+                        await fetch(`${API_BASE}/boards/${boardId}/columns`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name })
+                        });
+                        log(`Created column: ${name}`);
+                    }
+                } else {
+                    boardId = boards[0].id;
+                    log(`Using existing board: ${boards[0].name}`);
+                }
+
+                // Get columns
+                const columnsRes = await fetch(`${API_BASE}/boards/${boardId}/columns`);
+                const columns = await columnsRes.json();
+                
+                // Check if cards exist
+                const cardsRes = await fetch(`${API_BASE}/boards/${boardId}/cards`);
+                const existingCards = await cardsRes.json();
+                
+                if (existingCards.length > 0) {
+                    log(`Board already has ${existingCards.length} cards`);
+                    return;
+                }
+
+                // Create sample cards
+                const todoCol = columns.find(c => c.name.includes('To Do')) || columns[0];
+                const progressCol = columns.find(c => c.name.includes('Progress')) || columns[1];
+                const reviewCol = columns.find(c => c.name.includes('Review')) || columns[2];
+                const doneCol = columns.find(c => c.name.includes('Done')) || columns[3];
+
+                const cards = [
+                    {
+                        columnId: todoCol.id,
+                        title: 'Setup development environment',
+                        description: 'Install Node.js, configure ESLint, and setup Git hooks',
+                        priority: 'high',
+                        labels: ['setup', 'dev-environment'],
+                        assignee: 'john@example.com'
+                    },
+                    {
+                        columnId: todoCol.id,
+                        title: 'Write API tests',
+                        description: 'Create comprehensive test suite for all API endpoints',
+                        priority: 'medium',
+                        labels: ['testing', 'backend'],
+                        assignee: 'sarah@example.com'
+                    },
+                    {
+                        columnId: progressCol.id,
+                        title: 'Implement user authentication',
+                        description: 'Add login, logout, and session management',
+                        priority: 'high',
+                        labels: ['security', 'feature'],
+                        assignee: 'mike@example.com'
+                    },
+                    {
+                        columnId: progressCol.id,
+                        title: 'Design database schema',
+                        description: 'Create ERD and optimize for performance',
+                        priority: 'high',
+                        labels: ['database', 'architecture'],
+                        assignee: 'emma@example.com'
+                    },
+                    {
+                        columnId: reviewCol.id,
+                        title: 'Dashboard UI components',
+                        description: 'Build reusable chart and stat components',
+                        priority: 'medium',
+                        labels: ['frontend', 'ui'],
+                        assignee: 'alex@example.com'
+                    },
+                    {
+                        columnId: doneCol.id,
+                        title: 'Project setup',
+                        description: 'Initialize repository and basic structure',
+                        priority: 'low',
+                        labels: ['setup'],
+                        assignee: 'team@example.com'
+                    }
+                ];
+
+                for (const card of cards) {
+                    await fetch(`${API_BASE}/boards/${boardId}/cards`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(card)
+                    });
+                    log(`Created card: ${card.title}`);
+                }
+
+                log('\n✅ Test data created successfully!');
+                log('Refresh the Kanban board page to see the cards.');
+
+            } catch (error) {
+                log(`❌ Error: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -46,5 +46,3 @@ Prefer concise, actionable docs with commands. Keep URLs and ports accurate (`30
 
 - New developer can run the system and use the Kanban board in <10 minutes
 - Docs remain accurate after implementation
-
-

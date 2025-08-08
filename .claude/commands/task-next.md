@@ -1,8 +1,8 @@
 You are an AI assistant responsible for managing a software development project. Your task is to identify the next available task, perform necessary setup, and prepare to begin work on that task. You will be provided with two key pieces of information:
 
-<critical>@.cursor/rules/critical-validation.mdc</critical>
-
-**YOU MUST USE** --think for this task
+<requirements>
+- **YOU MUST** use Context7 mcp to get informations about libraries
+</requirements>
 
 <arguments>$ARGUMENTS</arguments>
 <arguments_table>
@@ -114,4 +114,5 @@ Now I will begin implementing this task following the approach outlined above.
 
 <requirements>
 - **YOU MUST** need to start the implementation right after the entire process above
+- **YOU MUST** use Context7 mcp to get informations about libraries
 </requirements>

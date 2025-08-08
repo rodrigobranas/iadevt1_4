@@ -45,5 +45,3 @@ Use the existing `announcements` from `kibo-ui` Kanban; adjust composition if ne
 
 - Keyboard-only users can move cards and track status
 - Screen reader users hear appropriate announcements
-
-

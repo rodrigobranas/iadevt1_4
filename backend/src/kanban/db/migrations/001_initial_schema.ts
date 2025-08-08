@@ -1,9 +1,9 @@
-import type { Database } from "bun:sqlite";
-import type { Migration } from "../migrations";
+import type { Database } from 'bun:sqlite';
+import type { Migration } from '../migrations';
 
 export const migration001InitialSchema: Migration = {
-  id: "001",
-  name: "initial_schema",
+  id: '001',
+  name: 'initial_schema',
   up: (db: Database) => {
     db.exec(`
       CREATE TABLE IF NOT EXISTS boards (
@@ -13,7 +13,7 @@ export const migration001InitialSchema: Migration = {
         updated_at TEXT NOT NULL
       )
     `);
-    
+
     db.exec(`
       CREATE TABLE IF NOT EXISTS columns (
         id TEXT PRIMARY KEY,
@@ -24,7 +24,7 @@ export const migration001InitialSchema: Migration = {
         updated_at TEXT NOT NULL
       )
     `);
-    
+
     db.exec(`
       CREATE TABLE IF NOT EXISTS cards (
         id TEXT PRIMARY KEY,
@@ -41,9 +41,9 @@ export const migration001InitialSchema: Migration = {
         updated_at TEXT NOT NULL
       )
     `);
-    
+
     db.exec(`CREATE INDEX IF NOT EXISTS idx_columns_board ON columns(board_id)`);
     db.exec(`CREATE INDEX IF NOT EXISTS idx_cards_column ON cards(column_id)`);
     db.exec(`CREATE INDEX IF NOT EXISTS idx_cards_board ON cards(board_id)`);
-  }
+  },
 };

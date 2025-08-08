@@ -44,5 +44,3 @@ Coordinate with `Board.tsx` drag callbacks. Keep logic small and testable. Ensur
 
 - Drag feels instant; server responses reconcile positions
 - Errors roll back to previous state and show a message
-
-

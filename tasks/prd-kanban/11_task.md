@@ -45,5 +45,3 @@ Organize tests under `backend/test/`. Use clear naming and small functions. Pref
 
 - Tests pass locally; cover critical paths
 - Regressions in ordering behavior are caught
-
-

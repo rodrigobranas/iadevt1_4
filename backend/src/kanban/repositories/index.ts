@@ -1,5 +1,1 @@
-export type {
-  BoardRepository,
-  ColumnRepository,
-  CardRepository,
-} from './kanban-repository';
+export type { BoardRepository, ColumnRepository, CardRepository } from './kanban-repository';

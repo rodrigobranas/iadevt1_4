@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { KanbanPage } from '@/features/kanban/KanbanPage';
 
 export default function App() {
   return (
@@ -21,7 +22,7 @@ export default function App() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Tarefas</BreadcrumbPage>
+                  <BreadcrumbPage>Kanban Board</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -30,10 +31,8 @@ export default function App() {
             <ThemeSwitcher />
           </div>
         </header>
-        <div className="flex flex-1 flex-col p-4">
-          <div className="bg-muted/50 flex min-h-[calc(100vh-5rem)] flex-1 items-center justify-center rounded-xl">
-            <span className="text-muted-foreground text-lg">Área principal de conteúdo</span>
-          </div>
+        <div className="flex flex-1 flex-col">
+          <KanbanPage />
         </div>
       </SidebarInset>
     </SidebarProvider>

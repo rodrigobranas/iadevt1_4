@@ -207,12 +207,12 @@ None in MVP. Authentication assumed as pre-existing app context; treat `assignee
 
 ## Impact Analysis
 
-| Affected Component                         | Type of Impact              | Description & Risk Level                              | Required Action                  |
-| ------------------------------------------ | --------------------------- | ----------------------------------------------------- | -------------------------------- |
-| `backend/src/index.ts`                     | API Surface Addition        | Mount new Kanban routes under `/api/v0/kanban`. Low. | Add router import and `app.route`|
-| `frontend/src/components/ui/kibo-ui/…`     | None (Reuse)                | Existing DnD UI reused. Low.                          | Compose in feature components    |
-| `frontend/src/features/kanban` (new)       | New Feature Module          | API client + bindings + state. Medium.                | Create module and integrate      |
-| SQLite DB (new file `kanban.db`)           | New Persistence             | Local file storage. Low.                              | Initialize and migrate on boot   |
+| Affected Component                     | Type of Impact       | Description & Risk Level                             | Required Action                   |
+| -------------------------------------- | -------------------- | ---------------------------------------------------- | --------------------------------- |
+| `backend/src/index.ts`                 | API Surface Addition | Mount new Kanban routes under `/api/v0/kanban`. Low. | Add router import and `app.route` |
+| `frontend/src/components/ui/kibo-ui/…` | None (Reuse)         | Existing DnD UI reused. Low.                         | Compose in feature components     |
+| `frontend/src/features/kanban` (new)   | New Feature Module   | API client + bindings + state. Medium.               | Create module and integrate       |
+| SQLite DB (new file `kanban.db`)       | New Persistence      | Local file storage. Low.                             | Initialize and migrate on boot    |
 
 Performance impact: Adds endpoints; query patterns are simple (by board/column). Ensure indices as specified.
 
@@ -225,6 +225,7 @@ Performance impact: Adds endpoints; query patterns are simple (by board/column).
 - Validate payload schemas (required fields, max lengths).
 
 Critical scenarios:
+
 - Move across columns updates `columnId` and repositions correctly.
 - Reorder within column maintains contiguous positions.
 - Delete non-empty column without `force` is rejected.
@@ -281,5 +282,3 @@ Critical scenarios:
 - Apply SOLID and clean layering (routes → services → repositories → db).
 - Follow project code standards (English, naming, early returns, small functions, DI via interfaces).
 - Unit and integration tests per testing standards.
-
-

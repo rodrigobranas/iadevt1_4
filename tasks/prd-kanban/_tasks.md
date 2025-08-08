@@ -39,11 +39,11 @@
   - Depends on: 2.0
   - Deliverables: `repositories/sqlite/*.ts` with CRUD, move/reorder ops
 
-- [ ] 4.0 Backend: Implement domain services (CRUD, moveCard, reorderCard, deleteColumn with confirm)
+- [x] 4.0 Backend: Implement domain services (CRUD, moveCard, reorderCard, deleteColumn with confirm)
   - Depends on: 3.0
   - Deliverables: `services/kanban-service.ts` with tested logic
 
-- [ ] 5.0 Backend: Expose Hono routes `/api/v0/kanban` (boards/columns/cards, move/reorder)
+- [x] 5.0 Backend: Expose Hono routes `/api/v0/kanban` (boards/columns/cards, move/reorder)
   - Depends on: 4.0
   - Deliverables: `routes/*.ts` + mount in `backend/src/index.ts`
 
@@ -51,19 +51,19 @@
   - Depends on: 1.0
   - Deliverables: Structured logging + `/health` includes DB status
 
-- [ ] 7.0 Frontend: API client layer for Kanban endpoints
+- [x] 7.0 Frontend: API client layer for Kanban endpoints
   - Depends on: 5.0 (API contracts), can be scaffolded earlier with mocks
   - Deliverables: `api/client.ts` functions with types
 
-- [ ] 8.0 Frontend: Feature components using `kibo-ui` Kanban
+- [x] 8.0 Frontend: Feature components using `kibo-ui` Kanban
   - Depends on: 7.0
   - Deliverables: `components/Board.tsx` wiring columns/cards
 
-- [ ] 9.0 Frontend: Optimistic updates and error rollback for DnD
+- [ ] 9.0 Frontend: Optimistic updates and error rollback for DnD [DEFERRED]
   - Depends on: 8.0
   - Deliverables: `state/useKanbanBoard.ts`, error toasts, reconciliation
 
-- [ ] 10.0 Accessibility: Keyboard interactions and ARIA announcements verification
+- [ ] 10.0 Accessibility: Keyboard interactions and ARIA announcements verification [DEFERRED]
   - Depends on: 8.0
   - Deliverables: a11y QA checklist, fixes if needed
 
@@ -71,12 +71,10 @@
   - Depends on: 5.0
   - Deliverables: `backend/test/**` covering CRUD and move flow
 
-- [ ] 12.0 Performance: Seed data and p95 checks (300 cards/6 columns)
+- [ ] 12.0 Performance: Seed data and p95 checks (300 cards/6 columns) [DEFERRED]
   - Depends on: 8.0
   - Deliverables: seed script, simple load measurement, optimizations if required
 
-- [ ] 13.0 Documentation: Developer README and usage notes
+- [ ] 13.0 Documentation: Developer README and usage notes [DEFERRED]
   - Depends on: 8.0
   - Deliverables: README updates (run, seed, API summary)
-
-

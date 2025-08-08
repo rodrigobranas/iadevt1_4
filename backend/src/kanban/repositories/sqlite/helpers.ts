@@ -1,5 +1,5 @@
-import type { Database } from "bun:sqlite";
-import type { Priority } from "../../models/entities";
+import type { Database } from 'bun:sqlite';
+import type { Priority } from '../../models/entities';
 
 export function generateId(): string {
   return crypto.randomUUID();
@@ -35,18 +35,16 @@ export function normalizePositions(
   db: Database,
   table: 'columns' | 'cards',
   parentId: string,
-  parentField: 'board_id' | 'column_id' = table === 'columns' ? 'board_id' : 'column_id'
+  parentField: 'board_id' | 'column_id' = table === 'columns' ? 'board_id' : 'column_id',
 ): void {
-  const updateStmt = db.prepare(
-    `UPDATE ${table} SET position = ? WHERE id = ?`
-  );
-  
+  const updateStmt = db.prepare(`UPDATE ${table} SET position = ? WHERE id = ?`);
+
   const selectStmt = db.prepare(
-    `SELECT id FROM ${table} WHERE ${parentField} = ? ORDER BY position, created_at`
+    `SELECT id FROM ${table} WHERE ${parentField} = ? ORDER BY position, created_at`,
   );
-  
+
   const rows = selectStmt.all(parentId) as { id: string }[];
-  
+
   rows.forEach((row, index) => {
     updateStmt.run(index, row.id);
   });
@@ -57,17 +55,17 @@ export function setOrderForParent(
   table: 'columns' | 'cards',
   parentId: string,
   orderedIds: string[],
-  parentField: 'board_id' | 'column_id' = table === 'columns' ? 'board_id' : 'column_id'
+  parentField: 'board_id' | 'column_id' = table === 'columns' ? 'board_id' : 'column_id',
 ): void {
   const updateStmt = db.prepare(
-    `UPDATE ${table} SET position = ? WHERE id = ? AND ${parentField} = ?`
+    `UPDATE ${table} SET position = ? WHERE id = ? AND ${parentField} = ?`,
   );
-  
+
   const transaction = db.transaction(() => {
     orderedIds.forEach((id, index) => {
       updateStmt.run(index, id, parentId);
     });
   });
-  
+
   transaction();
 }
