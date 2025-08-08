@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Accessibility Test</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 { color: #333; }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .test-item {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 4px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .pass { background: #10b981; color: white; }
+        .fail { background: #ef4444; color: white; }
+        .warning { background: #f59e0b; color: white; }
+        .pending { background: #6b7280; color: white; }
+        
+        .keyboard-shortcuts {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .keyboard-shortcuts h3 {
+            margin-top: 0;
+        }
+        
+        .shortcuts-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .shortcut {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .key {
+            background: white;
+            border: 1px solid #d1d5db;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .test-results {
+            margin-top: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .check-icon {
+            margin-right: 10px;
+        }
+        
+        #aria-live-region {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        
+        .contrast-test {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .color-sample {
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .instructions {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kanban Board Accessibility Test Suite</h1>
+    
+    <div class="instructions">
+        <h3>📋 Testing Instructions</h3>
+        <ol>
+            <li>Open the Kanban board in your development environment</li>
+            <li>Use this checklist to verify each accessibility feature</li>
+            <li>Test with keyboard-only navigation (disconnect mouse)</li>
+            <li>Test with screen readers (NVDA, VoiceOver)</li>
+            <li>Use browser DevTools to check contrast ratios</li>
+        </ol>
+    </div>
+
+    <!-- Keyboard Navigation Test -->
+    <div class="test-section">
+        <h2>⌨️ Keyboard Navigation Test</h2>
+        
+        <div class="keyboard-shortcuts">
+            <h3>Expected Keyboard Shortcuts</h3>
+            <div class="shortcuts-list">
+                <div class="shortcut">
+                    <span class="key">Tab</span>
+                    <span>Navigate between elements</span>
+                </div>
+                <div class="shortcut">
+                    <span class="key">↑↓</span>
+                    <span>Navigate cards in column</span>
+                </div>
+                <div class="shortcut">
+                    <span class="key">←→</span>
+                    <span>Navigate between columns</span>
+                </div>
+                <div class="shortcut">
+                    <span class="key">Space</span>
+                    <span>Pick up/drop card</span>
+                </div>
+                <div class="shortcut">
+                    <span class="key">Esc</span>
+                    <span>Cancel drag operation</span>
+                </div>
+                <div class="shortcut">
+                    <span class="key">Enter</span>
+                    <span>Activate button/link</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-results">
+            <h3>Test Results</h3>
+            <div class="result-item">
+                <span class="check-icon">☐</span>
+                <span>Tab through all cards and buttons</span>
+                <span class="status pending">Pending</span>
+            </div>
+            <div class="result-item">
+                <span class="check-icon">☐</span>
+                <span>Arrow key navigation within columns</span>
+                <span class="status pending">Pending</span>
+            </div>
+            <div class="result-item">
+                <span class="check-icon">☐</span>
+                <span>Space/Enter to pick up card</span>
+                <span class="status pending">Pending</span>
+            </div>
+            <div class="result-item">
+                <span class="check-icon">☐</span>
+                <span>Arrow keys to move while dragging</span>
+                <span class="status pending">Pending</span>
+            </div>
+            <div class="result-item">
+                <span class="check-icon">☐</span>
+                <span>Escape to cancel drag</span>
+                <span class="status pending">Pending</span>
+            </div>
+            <div class="result-item">
+                <span class="check-icon">☐</span>
+                <span>Focus returns after drop</span>
+                <span class="status pending">Pending</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen Reader Test -->
+    <div class="test-section">
+        <h2>🔊 Screen Reader Announcements Test</h2>
+        
+        <div class="test-grid">
+            <div class="test-item">
+                <h3>Expected Announcements</h3>
+                <ul>
+                    <li><strong>Pick up:</strong> "Picked up card [name] from [column]"</li>
+                    <li><strong>Drag over:</strong> "Dragging card [name] over [column]"</li>
+                    <li><strong>Drop:</strong> "Dropped card [name] into [column]"</li>
+                    <li><strong>Cancel:</strong> "Cancelled dragging card [name]"</li>
+                </ul>
+            </div>
+            
+            <div class="test-item">
+                <h3>ARIA Attributes to Verify</h3>
+                <ul>
+                    <li>aria-label on board container</li>
+                    <li>aria-label on each column</li>
+                    <li>role="region" on board</li>
+                    <li>role="group" on columns</li>
+                    <li>aria-live regions for announcements</li>
+                    <li>aria-describedby for card details</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div aria-live="polite" aria-atomic="true" id="aria-live-region">
+            <!-- Live region for testing announcements -->
+        </div>
+    </div>
+
+    <!-- Color Contrast Test -->
+    <div class="test-section">
+        <h2>🎨 Color Contrast Test (WCAG AA)</h2>
+        
+        <div class="contrast-test">
+            <div class="color-sample" style="background: #ffffff; color: #000000;">
+                <strong>Text on Background</strong><br>
+                Ratio: 21:1 ✅
+            </div>
+            <div class="color-sample" style="background: #f3f4f6; color: #374151;">
+                <strong>Card Text</strong><br>
+                Target: 4.5:1
+            </div>
+            <div class="color-sample" style="background: #3b82f6; color: #ffffff;">
+                <strong>Primary Button</strong><br>
+                Target: 4.5:1
+            </div>
+            <div class="color-sample" style="background: #ef4444; color: #ffffff;">
+                <strong>High Priority</strong><br>
+                Target: 4.5:1
+            </div>
+            <div class="color-sample" style="background: #f59e0b; color: #ffffff;">
+                <strong>Medium Priority</strong><br>
+                Target: 4.5:1
+            </div>
+            <div class="color-sample" style="background: #10b981; color: #ffffff;">
+                <strong>Low Priority</strong><br>
+                Target: 4.5:1
+            </div>
+        </div>
+        
+        <p><strong>Note:</strong> Use browser DevTools or accessibility extensions to verify actual contrast ratios in the application.</p>
+    </div>
+
+    <!-- Manual Testing Checklist -->
+    <div class="test-section">
+        <h2>✅ Manual Testing Checklist</h2>
+        
+        <div class="test-grid">
+            <div class="test-item">
+                <h3>Focus Management</h3>
+                <label><input type="checkbox"> Focus ring visible on all elements</label><br>
+                <label><input type="checkbox"> Focus order is logical</label><br>
+                <label><input type="checkbox"> No focus traps</label><br>
+                <label><input type="checkbox"> Focus returns after interactions</label>
+            </div>
+            
+            <div class="test-item">
+                <h3>Screen Reader</h3>
+                <label><input type="checkbox"> All elements announced correctly</label><br>
+                <label><input type="checkbox"> Card content readable</label><br>
+                <label><input type="checkbox"> Column names announced</label><br>
+                <label><input type="checkbox"> Status changes announced</label>
+            </div>
+            
+            <div class="test-item">
+                <h3>Keyboard Operation</h3>
+                <label><input type="checkbox"> Can complete all tasks via keyboard</label><br>
+                <label><input type="checkbox"> Shortcuts work as expected</label><br>
+                <label><input type="checkbox"> Can cancel operations</label><br>
+                <label><input type="checkbox"> No keyboard traps</label>
+            </div>
+            
+            <div class="test-item">
+                <h3>Visual Design</h3>
+                <label><input type="checkbox"> Contrast ratios meet WCAG AA</label><br>
+                <label><input type="checkbox"> Focus indicators clear</label><br>
+                <label><input type="checkbox"> Status not only by color</label><br>
+                <label><input type="checkbox"> Touch targets ≥44x44px</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testing Tools -->
+    <div class="test-section">
+        <h2>🛠️ Testing Tools</h2>
+        
+        <div class="test-grid">
+            <div class="test-item">
+                <h3>Browser Extensions</h3>
+                <ul>
+                    <li><a href="https://www.deque.com/axe/devtools/" target="_blank">axe DevTools</a></li>
+                    <li><a href="https://wave.webaim.org/extension/" target="_blank">WAVE</a></li>
+                    <li><a href="https://developers.google.com/web/tools/lighthouse" target="_blank">Lighthouse</a></li>
+                </ul>
+            </div>
+            
+            <div class="test-item">
+                <h3>Screen Readers</h3>
+                <ul>
+                    <li><a href="https://www.nvaccess.org/" target="_blank">NVDA (Windows)</a></li>
+                    <li>VoiceOver (macOS: ⌘+F5)</li>
+                    <li>VoiceOver (iOS: Settings > Accessibility)</li>
+                </ul>
+            </div>
+            
+            <div class="test-item">
+                <h3>Manual Testing</h3>
+                <ul>
+                    <li>Disconnect mouse for keyboard testing</li>
+                    <li>Use Tab key to navigate</li>
+                    <li>Test with zoom at 200%</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple test runner for demonstration
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Accessibility Test Suite Loaded');
+            console.log('Please open the Kanban board and use this checklist to verify accessibility features.');
+            
+            // Simulate announcement for testing
+            const announceToScreenReader = (message) => {
+                const liveRegion = document.getElementById('aria-live-region');
+                liveRegion.textContent = message;
+                console.log('Screen reader announcement:', message);
+            };
+            
+            // Example test
+            window.testAnnouncement = () => {
+                announceToScreenReader('Test announcement: Card moved from To Do to In Progress');
+            };
+            
+            console.log('Run window.testAnnouncement() to test screen reader announcements');
+        });
+    </script>
+</body>
+</html>
